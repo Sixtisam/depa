@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry output="bin/main" kind="src" path="src/main/java">
+		<attributes>
+			<attribute name="gradle_scope" value="main"/>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry output="bin/main" kind="src" path="src/main/resources">
+		<attributes>
+			<attribute name="gradle_scope" value="main"/>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry output="bin/test" kind="src" path="src/test/java">
+		<attributes>
+			<attribute name="gradle_scope" value="test"/>
+			<attribute name="gradle_used_by_scope" value="test"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
+	<classpathentry kind="output" path="bin/default"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11/"/>
+	<classpathentry sourcepath="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.springframework/spring-context/5.2.3.RELEASE/3ef2c27cf36f740d5dba6e8dcdba51be3be87897/spring-context-5.2.3.RELEASE-sources.jar" kind="lib" path="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.springframework/spring-context/5.2.3.RELEASE/7750c95c96c7a1885c8b1b503ba915bc33ca579a/spring-context-5.2.3.RELEASE.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/log4j/log4j/1.2.17/677abe279b68c5e7490d6d50c6951376238d7d3e/log4j-1.2.17-sources.jar" kind="lib" path="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/log4j/log4j/1.2.17/5af35056b4d257e4b64b9e8069c0746e8b08629f/log4j-1.2.17.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.springframework/spring-aop/5.2.3.RELEASE/ae6e011008abb3ee029f35f34ad277f1fde9613c/spring-aop-5.2.3.RELEASE-sources.jar" kind="lib" path="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.springframework/spring-aop/5.2.3.RELEASE/9cdd9a1dd636331767fffcc7fe49a7bb00e7b34b/spring-aop-5.2.3.RELEASE.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.springframework/spring-beans/5.2.3.RELEASE/b5c539bbfce38bab766e534876a7d2b8e67afe/spring-beans-5.2.3.RELEASE-sources.jar" kind="lib" path="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.springframework/spring-beans/5.2.3.RELEASE/250c8c641433dc06b1b44e4563fa08a2fbf8954/spring-beans-5.2.3.RELEASE.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.springframework/spring-expression/5.2.3.RELEASE/ade44c4c811c102f824c2dbebe21e8738480fec6/spring-expression-5.2.3.RELEASE-sources.jar" kind="lib" path="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.springframework/spring-expression/5.2.3.RELEASE/d0c6bb10758805b2153c589686b8045554bfac2d/spring-expression-5.2.3.RELEASE.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.springframework/spring-core/5.2.3.RELEASE/afb88af3656620032ddadfd718011d32828ebc3f/spring-core-5.2.3.RELEASE-sources.jar" kind="lib" path="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.springframework/spring-core/5.2.3.RELEASE/3734223040040e8c3fecd5faa3ae8a1ed6da146b/spring-core-5.2.3.RELEASE.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.springframework/spring-jcl/5.2.3.RELEASE/6be9227d3fbb5131762869937c4b924c82676ded/spring-jcl-5.2.3.RELEASE-sources.jar" kind="lib" path="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.springframework/spring-jcl/5.2.3.RELEASE/fcba3ae00724ee18f37aa49ac887a5fd4ad77502/spring-jcl-5.2.3.RELEASE.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter/5.6.0/8c9b4d6a97f175dbdeda91e48cb864f31d0bf0ae/junit-jupiter-5.6.0-sources.jar" kind="lib" path="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter/5.6.0/44ddb240c9460ff45a42cad0bf0a35e32f661aad/junit-jupiter-5.6.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="test"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-params/5.6.0/6f38fdb1f7e00ceb6aa6f7db54b1ee92cb196257/junit-jupiter-params-5.6.0-sources.jar" kind="lib" path="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-params/5.6.0/b28e078d4e8424de01df02ec92410d225e5d6444/junit-jupiter-params-5.6.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="test"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.6.0/eecce5da465f85a39fdd55f39a55591290170fae/junit-jupiter-api-5.6.0-sources.jar" kind="lib" path="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.6.0/f29e6318333d2303ce4965c9819cfad08de7d1e5/junit-jupiter-api-5.6.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="test"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.6.0/f287c0698f3a9cbbac28476c0d77237a80312d66/junit-platform-commons-1.6.0-sources.jar" kind="lib" path="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.6.0/b0a75795cf03841d4f9cc54099557baffc11c727/junit-platform-commons-1.6.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="test"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.apiguardian/apiguardian-api/1.1.0/f3c15fe970af864390c8d0634c9f16aca1b064a8/apiguardian-api-1.1.0-sources.jar" kind="lib" path="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.apiguardian/apiguardian-api/1.1.0/fc9dff4bb36d627bdc553de77e1f17efd790876c/apiguardian-api-1.1.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="test"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.opentest4j/opentest4j/1.2.0/41d55b3c2254de9837b4ec8923cbd371b8a7eab5/opentest4j-1.2.0-sources.jar" kind="lib" path="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.opentest4j/opentest4j/1.2.0/28c11eb91f9b6d8e200631d46e20a7f407f2a046/opentest4j-1.2.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="test"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-engine/5.6.0/9001c3c1e19e10fd2d0cf3c0e9cd9eae96a6666e/junit-jupiter-engine-5.6.0-sources.jar" kind="lib" path="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-engine/5.6.0/83c9e737f6015d9e00029b9b1d51e952a884b8f9/junit-jupiter-engine-5.6.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="test"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-engine/1.6.0/d4d9f3ebfdb135cdb7460c62ac6756eca39f48b2/junit-platform-engine-1.6.0-sources.jar" kind="lib" path="C:/Users/sixkn/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-engine/1.6.0/a3a6ec96c010875444b3ca31828108093758ec00/junit-platform-engine-1.6.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="test"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+</classpath>
