@@ -16,10 +16,12 @@ import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import jdraw.figures.RectTool;
+import jdraw.figures.hexagon.HexagonTool;
+import jdraw.figures.line.LineTool;
+import jdraw.figures.oval.OvalTool;
+import jdraw.figures.rect.RectTool;
 import jdraw.framework.DrawCommandHandler;
 import jdraw.framework.DrawModel;
-import jdraw.framework.DrawTool;
 import jdraw.framework.DrawToolFactory;
 import jdraw.framework.DrawView;
 import jdraw.framework.Figure;
@@ -35,6 +37,7 @@ import jdraw.framework.Figure;
 public class StdContext extends AbstractContext {
 	/**
 	 * Constructs a standard context with a default set of drawing tools.
+	 * 
 	 * @param view the view that is displaying the actual drawing.
 	 */
 	public StdContext(DrawView view) {
@@ -45,8 +48,9 @@ public class StdContext extends AbstractContext {
 	 * Constructs a standard context. The drawing tools available can be
 	 * parameterized using <code>toolFactories</code>.
 	 * 
-	 * @param view  the view that is displaying the actual drawing.
-	 * @param toolFactories  a list of DrawToolFactories that are available to the user
+	 * @param view          the view that is displaying the actual drawing.
+	 * @param toolFactories a list of DrawToolFactories that are available to the
+	 *                      user
 	 */
 	public StdContext(DrawView view, List<DrawToolFactory> toolFactories) {
 		super(view, toolFactories);
@@ -64,33 +68,30 @@ public class StdContext extends AbstractContext {
 		undo.setAccelerator(KeyStroke.getKeyStroke("control Z"));
 		editMenu.add(undo);
 		undo.addActionListener(e -> {
-				final DrawCommandHandler h = getModel().getDrawCommandHandler();
-				if (h.undoPossible()) {
-					h.undo();
-				}
+			final DrawCommandHandler h = getModel().getDrawCommandHandler();
+			if (h.undoPossible()) {
+				h.undo();
 			}
-		);
+		});
 
 		final JMenuItem redo = new JMenuItem("Redo");
 		redo.setAccelerator(KeyStroke.getKeyStroke("control Y"));
 		editMenu.add(redo);
 		redo.addActionListener(e -> {
-				final DrawCommandHandler h = getModel().getDrawCommandHandler();
-				if (h.redoPossible()) {
-					h.redo();
-				}
+			final DrawCommandHandler h = getModel().getDrawCommandHandler();
+			if (h.redoPossible()) {
+				h.redo();
 			}
-		);
+		});
 		editMenu.addSeparator();
 
 		JMenuItem sa = new JMenuItem("SelectAll");
 		sa.setAccelerator(KeyStroke.getKeyStroke("control A"));
 		editMenu.add(sa);
-		sa.addActionListener( e -> {
-				getModel().getFigures().forEachOrdered(f -> getView().addToSelection(f));
-				getView().repaint();
-			}
-		);
+		sa.addActionListener(e -> {
+			getModel().getFigures().forEachOrdered(f -> getView().addToSelection(f));
+			getView().repaint();
+		});
 
 		editMenu.addSeparator();
 		editMenu.add("Cut").setEnabled(false);
@@ -103,7 +104,7 @@ public class StdContext extends AbstractContext {
 		clear.addActionListener(e -> {
 			getModel().removeAllFigures();
 		});
-		
+
 		editMenu.addSeparator();
 		JMenuItem group = new JMenuItem("Group");
 		group.setEnabled(false);
@@ -133,7 +134,7 @@ public class StdContext extends AbstractContext {
 		grid.add("Grid 2");
 		grid.add("Grid 3");
 		editMenu.add(grid);
-		
+
 		return editMenu;
 	}
 
@@ -153,31 +154,35 @@ public class StdContext extends AbstractContext {
 		JMenuItem save = new JMenuItem("Save");
 		save.setAccelerator(KeyStroke.getKeyStroke("control S"));
 		fileMenu.add(save);
-		save.addActionListener(e ->	doSave());
+		save.addActionListener(e -> doSave());
 
 		JMenuItem exit = new JMenuItem("Exit");
 		fileMenu.add(exit);
 		exit.addActionListener(e -> System.exit(0));
-		
+
 		return fileMenu;
 	}
 
 	@Override
 	protected void doRegisterDrawTools() {
 		// TODO Add new figure tools here
-		DrawTool rectangleTool = new RectTool(this);
-		addTool(rectangleTool);
+		addTool(new RectTool(this));
+		addTool(new OvalTool(this));
+		addTool(new HexagonTool(this));
+		addTool(new LineTool(this));
 	}
 
 	/**
-	 * Changes the order of figures and moves the figures in the selection
-	 * to the front, i.e. moves them to the end of the list of figures.
-	 * @param model model in which the order has to be changed
+	 * Changes the order of figures and moves the figures in the selection to the
+	 * front, i.e. moves them to the end of the list of figures.
+	 * 
+	 * @param model     model in which the order has to be changed
 	 * @param selection selection which is moved to front
 	 */
 	public void bringToFront(DrawModel model, List<Figure> selection) {
 		// the figures in the selection are ordered according to the order in the model
-		List<Figure> orderedSelection = model.getFigures().filter(f -> selection.contains(f)).collect(Collectors.toList());
+		List<Figure> orderedSelection = model.getFigures().filter(f -> selection.contains(f))
+				.collect(Collectors.toList());
 		Collections.reverse(orderedSelection);
 		int pos = (int) model.getFigures().count();
 		for (Figure f : orderedSelection) {
@@ -186,14 +191,16 @@ public class StdContext extends AbstractContext {
 	}
 
 	/**
-	 * Changes the order of figures and moves the figures in the selection
-	 * to the back, i.e. moves them to the front of the list of figures.
-	 * @param model model in which the order has to be changed
+	 * Changes the order of figures and moves the figures in the selection to the
+	 * back, i.e. moves them to the front of the list of figures.
+	 * 
+	 * @param model     model in which the order has to be changed
 	 * @param selection selection which is moved to the back
 	 */
 	public void sendToBack(DrawModel model, List<Figure> selection) {
 		// the figures in the selection are ordered according to the order in the model
-		List<Figure> orderedSelection = model.getFigures().filter(f -> selection.contains(f)).collect(Collectors.toList());
+		List<Figure> orderedSelection = model.getFigures().filter(f -> selection.contains(f))
+				.collect(Collectors.toList());
 		int pos = 0;
 		for (Figure f : orderedSelection) {
 			model.setFigureIndex(f, pos++);
@@ -207,22 +214,23 @@ public class StdContext extends AbstractContext {
 		JFileChooser chooser = new JFileChooser(getClass().getResource("").getFile());
 		chooser.setDialogTitle("Save Graphic");
 		chooser.setDialogType(JFileChooser.SAVE_DIALOG);
-		
+
 		chooser.setFileFilter(new FileNameExtensionFilter("JDraw Graphics (*.draw)", "draw"));
 		chooser.addChoosableFileFilter(new FileNameExtensionFilter("JDraw Graphics (*.xml)", "xml"));
 		chooser.addChoosableFileFilter(new FileNameExtensionFilter("JDraw Graphics (*.json)", "json"));
-		
+
 		int res = chooser.showSaveDialog(this);
 
 		if (res == JFileChooser.APPROVE_OPTION) {
 			// save graphic
 			File file = chooser.getSelectedFile();
 			FileFilter filter = chooser.getFileFilter();
-			if(filter instanceof FileNameExtensionFilter && !filter.accept(file)) {
-				file = new File(chooser.getCurrentDirectory(), file.getName() + "." + ((FileNameExtensionFilter)filter).getExtensions()[0]);
+			if (filter instanceof FileNameExtensionFilter && !filter.accept(file)) {
+				file = new File(chooser.getCurrentDirectory(),
+						file.getName() + "." + ((FileNameExtensionFilter) filter).getExtensions()[0]);
 			}
 			System.out.println("save current graphic to file " + file.getName() + " using format "
-					+ ((FileNameExtensionFilter)filter).getExtensions()[0]);
+					+ ((FileNameExtensionFilter) filter).getExtensions()[0]);
 		}
 	}
 
@@ -230,8 +238,7 @@ public class StdContext extends AbstractContext {
 	 * Handles the opening of a new drawing from a file.
 	 */
 	private void doOpen() {
-		JFileChooser chooser = new JFileChooser(getClass().getResource("")
-				.getFile());
+		JFileChooser chooser = new JFileChooser(getClass().getResource("").getFile());
 		chooser.setDialogTitle("Open Graphic");
 		chooser.setDialogType(JFileChooser.OPEN_DIALOG);
 		chooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
@@ -249,8 +256,7 @@ public class StdContext extends AbstractContext {
 
 		if (res == JFileChooser.APPROVE_OPTION) {
 			// read jdraw graphic
-			System.out.println("read file "
-					+ chooser.getSelectedFile().getName());
+			System.out.println("read file " + chooser.getSelectedFile().getName());
 		}
 	}
 

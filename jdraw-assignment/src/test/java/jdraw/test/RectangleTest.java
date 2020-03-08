@@ -8,14 +8,15 @@ import java.awt.Point;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import jdraw.figures.Rect;
+import jdraw.figures.rect.AbstractRectangularFigure;
+import jdraw.figures.rect.Rect;
 import jdraw.framework.Figure;
 import jdraw.framework.FigureEvent;
 import jdraw.framework.FigureListener;
 
 public class RectangleTest {
 
-	private Rect f;
+	private AbstractRectangularFigure f;
 	private int cnt;
 
 	@BeforeEach
@@ -58,22 +59,25 @@ public class RectangleTest {
 		f.addFigureListener(new TestListener());
 		f.addFigureListener(new TestListener());
 		f.move(4, 4);
+		assertEquals(3, cnt);
 	}
-	
+
 	@Test
 	final public void testCycle() {
 		Figure f1 = f;
 		Figure f2 = new Rect(10, 10, 10, 10);
 		f1.addFigureListener(new UpdateListener(f2));
 		f2.addFigureListener(new UpdateListener(f1));
-		
+
 		f2.move(5, 5);
-		assertEquals(f1.getBounds().getLocation(), f2.getBounds().getLocation(), "Position of the two figures must be equal");
+		assertEquals(f1.getBounds().getLocation(), f2.getBounds().getLocation(),
+				"Position of the two figures must be equal");
 		assertEquals(15, f1.getBounds().x, "Figures must both be at position x=15");
 		assertEquals(15, f1.getBounds().y, "Figures must both be at position y=15");
 
 		f1.move(5, 5);
-		assertEquals(f1.getBounds().getLocation(), f2.getBounds().getLocation(), "Position of the two figures must be equal");
+		assertEquals(f1.getBounds().getLocation(), f2.getBounds().getLocation(),
+				"Position of the two figures must be equal");
 		assertEquals(20, f1.getBounds().x, "Figures must both be at position x=20");
 		assertEquals(20, f1.getBounds().y, "Figures must both be at position y=20");
 	}
@@ -101,9 +105,11 @@ public class RectangleTest {
 
 	class UpdateListener implements FigureListener {
 		private final Figure f;
+
 		public UpdateListener(Figure f) {
 			this.f = f;
 		}
+
 		@Override
 		public void figureChanged(FigureEvent e) {
 			Point p1 = e.getFigure().getBounds().getLocation();

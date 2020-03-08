@@ -98,11 +98,10 @@ public class StdDrawModel implements DrawModel, FigureListener {
 	}
 
 	private void notifyListeners(DrawModelEvent e) {
-		for (int i = 0; i < m_listeners.size(); ++i) {
-			DrawModelListener listener = m_listeners.get(i);
-			if (listener != null) {
-				listener.modelChanged(e);
-			}
+		m_listeners.stream().forEach(l -> l.modelChanged(e));
+		DrawModelListener[] listeners = m_listeners.toArray(new DrawModelListener[0]);
+		for (DrawModelListener l : listeners) {
+			l.modelChanged(e);
 		}
 	}
 
