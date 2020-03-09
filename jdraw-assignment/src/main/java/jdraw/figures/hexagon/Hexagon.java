@@ -62,6 +62,7 @@ public class Hexagon extends AbstractFigure {
 	@Override
 	public void setBounds(Point origin, Point corner) {
 		double sideX = Math.abs(origin.getX() - corner.getX());
+		// calculates side by given half height
 		double sideY = Math.sqrt(4 * Math.pow(Math.abs(origin.getY() - corner.getY()), 2) / 3);
 
 		polygon = createPolygon(origin.getX(), origin.getY(), Math.max(sideX, sideY));

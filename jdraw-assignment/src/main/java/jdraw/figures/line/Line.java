@@ -14,6 +14,11 @@ import jdraw.framework.FigureHandle;
 public class Line extends AbstractFigure {
 	private static final long serialVersionUID = 1L;
 	private Line2D line;
+	
+	/**
+	 * Line is selectable 10px around the line
+	 */
+	public static final int GRAVITY = 10;
 
 	/**
 	 * Create a new polygon of the given dimension.
@@ -35,7 +40,7 @@ public class Line extends AbstractFigure {
 
 	@Override
 	public boolean contains(int x, int y) {
-		return false; // line has no area
+		return line.ptSegDistSq(x, y) < GRAVITY*GRAVITY;
 	}
 
 	@Override

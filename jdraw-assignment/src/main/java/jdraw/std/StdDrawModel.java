@@ -79,11 +79,11 @@ public class StdDrawModel implements DrawModel, FigureListener {
 	public void setFigureIndex(Figure f, int index) {
 		int oldIndex = m_figures.indexOf(f);
 		if (oldIndex != -1) {
-			if (index >= m_figures.size()) {
+			if (index < 0 || index >= m_figures.size()) {
 				throw new IndexOutOfBoundsException();
 			}
+			m_figures.remove(f);
 			m_figures.add(index, f);
-			m_figures.remove(oldIndex < index ? oldIndex : oldIndex + 1);
 			notifyListeners(new DrawModelEvent(this, f, Type.DRAWING_CHANGED));
 		} else {
 			throw new IllegalArgumentException();
