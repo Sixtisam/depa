@@ -3,8 +3,19 @@ package jdraw.figures.rect;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.RectangularShape;
+import java.util.Arrays;
+import java.util.List;
 
 import jdraw.figures.AbstractFigure;
+import jdraw.figures.handles.EastHandle;
+import jdraw.figures.handles.NorthEastHandle;
+import jdraw.figures.handles.NorthHandle;
+import jdraw.figures.handles.NorthWestHandle;
+import jdraw.figures.handles.SouthEastHandle;
+import jdraw.figures.handles.SouthHandle;
+import jdraw.figures.handles.SouthWestHandle;
+import jdraw.figures.handles.WestHandle;
+import jdraw.framework.FigureHandle;
 
 public abstract class AbstractRectangularFigure extends AbstractFigure {
 	private static final long serialVersionUID = 1L;
@@ -36,4 +47,10 @@ public abstract class AbstractRectangularFigure extends AbstractFigure {
 		}
 	}
 
+	@Override
+	public List<FigureHandle> getHandles() {
+		return Arrays.asList(new NorthWestHandle(this), new SouthEastHandle(this), new SouthWestHandle(this),
+				new NorthEastHandle(this), new NorthHandle(this), new SouthHandle(this), new WestHandle(this),
+				new EastHandle(this));
+	}
 }

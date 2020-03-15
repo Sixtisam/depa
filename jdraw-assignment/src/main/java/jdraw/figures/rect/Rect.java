@@ -52,4 +52,5 @@ public class Rect extends AbstractRectangularFigure {
 		g.setColor(Color.BLACK);
 		g.drawRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
 	}
+
 }
