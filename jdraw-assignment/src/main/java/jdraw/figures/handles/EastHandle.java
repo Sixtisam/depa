@@ -40,5 +40,7 @@ public class EastHandle extends AbstractFigureHandle {
 	}
 
 	public void stopInteraction(int x, int y, MouseEvent e, DrawView v) {
+		nwPoint = null;
+		sePoint = null;
 	}
 }

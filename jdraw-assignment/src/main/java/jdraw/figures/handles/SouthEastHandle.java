@@ -32,33 +32,19 @@ public class SouthEastHandle extends AbstractFigureHandle {
 	}
 
 	public void dragInteraction(int x, int y, MouseEvent e, DrawView v) {
-//		if (x > nwPoint.getX() && y > nwPoint.getY()) {
-//			sePoint = new Point(x, y);
-//			// se strategy
-//		} else if (x >= nwPoint.getX()) {
-//			// ne strategy
-//			nwPoint.setLocation(nwPoint.getX(), y);
-//			sePoint.setLocation(x, sePoint.getY());
-//		} else if (x < nwPoint.getX()) {
-//			// sw strategy
-//			nwPoint.setLocation(x, nwPoint.getY());
-//			sePoint.setLocation(sePoint.getX(), y);
-//		} else {
-//			// nw strategy
-//			nwPoint = new Point(x, y);
-//		}
-
-		owner.setBounds(nwPoint, new Point(x,y));
+		owner.setBounds(nwPoint, new Point(x, y));
 	}
+
 	@Override
 	public void stopInteraction(int x, int y, MouseEvent e, DrawView v) {
 		sePoint = null;
-		
+		nwPoint = null;
+
 	}
+
 	@Override
 	protected int getConfiguredPredefinedCursor() {
 		return Cursor.SE_RESIZE_CURSOR;
 	}
-
 
 }

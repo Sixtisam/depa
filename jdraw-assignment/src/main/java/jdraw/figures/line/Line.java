@@ -5,16 +5,19 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Line2D;
+import java.util.Arrays;
 import java.util.List;
 
 import jdraw.figures.AbstractFigure;
+import jdraw.figures.handles.Point1Handle;
+import jdraw.figures.handles.Point2Handle;
 import jdraw.framework.Figure;
 import jdraw.framework.FigureHandle;
 
 public class Line extends AbstractFigure {
 	private static final long serialVersionUID = 1L;
 	private Line2D line;
-	
+
 	/**
 	 * Line is selectable 10px around the line
 	 */
@@ -38,9 +41,13 @@ public class Line extends AbstractFigure {
 		notifyListeners();
 	}
 
+	public Line2D getLine() {
+		return line;
+	}
+
 	@Override
 	public boolean contains(int x, int y) {
-		return line.ptSegDistSq(x, y) < GRAVITY*GRAVITY;
+		return line.ptSegDistSq(x, y) < GRAVITY * GRAVITY;
 	}
 
 	@Override
@@ -75,7 +82,7 @@ public class Line extends AbstractFigure {
 	 */
 	@Override
 	public List<FigureHandle> getHandles() {
-		return null;
+		return Arrays.asList(new Point1Handle(this), new Point2Handle(this));
 	}
 
 	@Override

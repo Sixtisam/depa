@@ -35,8 +35,6 @@ public class SouthWestHandle extends AbstractFigureHandle {
 
 		sePoint = new Point(nwPoint);
 		sePoint.translate((int) r.getWidth(), (int) r.getHeight());
-//		sePoint = new Point(nwPoint);
-//		sePoint.translate((int) r.getWidth(), (int) r.getHeight());
 	}
 
 	public void dragInteraction(int x, int y, MouseEvent e, DrawView v) {

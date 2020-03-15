@@ -39,5 +39,6 @@ public class NorthHandle extends AbstractFigureHandle {
 	}
 
 	public void stopInteraction(int x, int y, MouseEvent e, DrawView v) {
+		sePoint = null;
 	}
 }
