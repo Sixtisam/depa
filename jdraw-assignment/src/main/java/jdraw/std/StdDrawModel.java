@@ -91,6 +91,16 @@ public class StdDrawModel implements DrawModel, FigureListener {
 	}
 
 	@Override
+	public int getFigureIndex(Figure f) throws IllegalArgumentException {
+		int index = m_figures.indexOf(f);
+		if (index == -1) {
+			throw new IllegalArgumentException();
+		} else {
+			return index;
+		}
+	}
+
+	@Override
 	public void removeAllFigures() {
 		m_figures.forEach(f -> f.removeFigureListener(this));
 		m_figures.clear();

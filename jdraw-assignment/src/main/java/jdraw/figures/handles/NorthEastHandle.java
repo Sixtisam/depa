@@ -26,25 +26,28 @@ public class NorthEastHandle extends AbstractFigureHandle {
 		return Cursor.NE_RESIZE_CURSOR;
 	}
 
-	private Point nwPoint;
-	private Point sePoint;
-
+	private Point anchor;
+	private double proportion;
 	public void startInteraction(int x, int y, MouseEvent e, DrawView v) {
 		Rectangle r = owner.getBounds();
-		nwPoint = r.getLocation();
+		Point loc = r.getLocation();
 
-		sePoint = new Point(nwPoint);
-		sePoint.translate((int) r.getWidth(), (int) r.getHeight());
+		anchor = new Point(loc.x, loc.y + r.height);
+		proportion = (double) r.width / (double) r.height;
 	}
 
 	public void dragInteraction(int x, int y, MouseEvent e, DrawView v) {
-		sePoint.translate((int) (x - sePoint.getX()), 0);
-		nwPoint.translate(0, (int) (y - nwPoint.getY()));
-		owner.setBounds(nwPoint, sePoint);
+		if(e.isShiftDown()) {
+			int nh = anchor.y - y;
+			int nw = (int) proportion * nh;
+			owner.setBounds(anchor, new Point(anchor.x + nw, y));
+		} else {
+			owner.setBounds(anchor, new Point(x,y));
+		}
+			
 	}
 
 	public void stopInteraction(int x, int y, MouseEvent e, DrawView v) {
-		sePoint = null;
-		nwPoint = null;
+		anchor = null;
 	}
 }

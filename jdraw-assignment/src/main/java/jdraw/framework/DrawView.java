@@ -81,6 +81,8 @@ public interface DrawView  {
 	 *         handle is selected.
 	 */
 	FigureHandle getHandle(int x, int y, MouseEvent e);
+	
+	FigureHandle getHandle(int x, int y, int maxDistance);
 
 	/**
 	 * Returns a list which contains the currently selected figures. The figures

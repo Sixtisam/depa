@@ -26,25 +26,28 @@ public class SouthWestHandle extends AbstractFigureHandle {
 		return Cursor.SW_RESIZE_CURSOR;
 	}
 
-	private Point nwPoint;
-	private Point sePoint;
+	private Point anchor;
+	private double proportion;
 
 	public void startInteraction(int x, int y, MouseEvent e, DrawView v) {
 		Rectangle r = owner.getBounds();
-		nwPoint = r.getLocation();
+		Point loc = r.getLocation();
 
-		sePoint = new Point(nwPoint);
-		sePoint.translate((int) r.getWidth(), (int) r.getHeight());
+		anchor = new Point(loc.x + r.width, loc.y);
+		proportion = (double) r.width / (double) r.height;
 	}
 
 	public void dragInteraction(int x, int y, MouseEvent e, DrawView v) {
-		nwPoint.translate((int) (x - nwPoint.getX()), 0);
-		sePoint.translate(0, (int) (y - sePoint.getY()));
-		owner.setBounds(nwPoint, sePoint);
+		if(e.isShiftDown()) {
+			int nh = anchor.y - y;
+			int nw = (int) proportion * nh;
+			owner.setBounds(anchor, new Point(nw + anchor.x, y));
+		} else {
+			owner.setBounds(anchor, new Point(x,y));
+		}
 	}
 
 	public void stopInteraction(int x, int y, MouseEvent e, DrawView v) {
-		sePoint = null;
-		nwPoint = null;
+		anchor = null;
 	}
 }

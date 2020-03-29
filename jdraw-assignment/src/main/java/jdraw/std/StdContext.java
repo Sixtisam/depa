@@ -6,6 +6,7 @@ package jdraw.std;
 
 import java.io.File;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,6 +17,7 @@ import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import jdraw.figures.group.Group;
 import jdraw.figures.hexagon.HexagonTool;
 import jdraw.figures.line.LineTool;
 import jdraw.figures.oval.OvalTool;
@@ -25,6 +27,9 @@ import jdraw.framework.DrawModel;
 import jdraw.framework.DrawToolFactory;
 import jdraw.framework.DrawView;
 import jdraw.framework.Figure;
+import jdraw.framework.FigureGroup;
+import jdraw.grids.ModifierGrid;
+import jdraw.grids.RectGrid;
 
 /**
  * Standard implementation of interface DrawContext.
@@ -107,11 +112,26 @@ public class StdContext extends AbstractContext {
 
 		editMenu.addSeparator();
 		JMenuItem group = new JMenuItem("Group");
-		group.setEnabled(false);
+		group.addActionListener(e -> {
+			List<Figure> selected = getView().getSelection();
+			// retain figure order so the selection order does not influences order in group
+			selected.sort(Comparator.comparing(f -> getView().getModel().getFigureIndex(f))); // SLOW
+			selected.forEach(s -> getView().getModel().removeFigure(s));
+			getModel().addFigure(new Group(selected));
+		});
 		editMenu.add(group);
 
 		JMenuItem ungroup = new JMenuItem("Ungroup");
-		ungroup.setEnabled(false);
+		ungroup.addActionListener(e -> {
+			List<Figure> selectedFigures = getView().getSelection();
+			for (Figure f : selectedFigures) {
+				if (f instanceof FigureGroup) {
+					FigureGroup fg = (FigureGroup) f;
+					getModel().removeFigure(f);
+					fg.getFigureParts().forEach(fp -> getModel().addFigure(fp));
+				}
+			}
+		});
 		editMenu.add(ungroup);
 
 		editMenu.addSeparator();
@@ -130,8 +150,13 @@ public class StdContext extends AbstractContext {
 		editMenu.add(orderMenu);
 
 		JMenu grid = new JMenu("Grid...");
-		grid.add("Grid 1");
-		grid.add("Grid 2");
+		grid.add("Grid 1").addActionListener(event -> {
+			getView().setGrid(new RectGrid());
+		});
+		grid.add("Grid 2").addActionListener(event -> {
+			getView().setGrid(new ModifierGrid());
+		});
+
 		grid.add("Grid 3");
 		editMenu.add(grid);
 

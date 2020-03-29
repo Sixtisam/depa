@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
 import javax.swing.Icon;
@@ -122,7 +123,7 @@ public class StdSelectionTool implements DrawTool {
 
 			// 3. look for new figures (which are not already
 			//    selected) and select them. Only one figure.
-			List<Figure> figures = new LinkedList<>();
+			LinkedList<Figure> figures = new LinkedList<>();
 			view.getModel().getFigures().forEachOrdered(f -> figures.add(0, f));
 			for (Figure f : figures) {
 				if (f.contains(originalX, originalY) && !view.getSelection().contains(f)) {

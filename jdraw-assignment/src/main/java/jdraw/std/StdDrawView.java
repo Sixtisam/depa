@@ -243,6 +243,15 @@ public final class StdDrawView extends JComponent implements DrawView {
 		}
 		return null;
 	}
+	
+	public FigureHandle getHandle(int x, int y, int maxDistance) {
+		for (FigureHandle fh : handles) {
+			if (fh.getLocation().distance(x, y) <= maxDistance) {
+				return fh;
+			}
+		}
+		return null;
+	}
 
 	@Override
 	public void setDrawContext(DrawContext context) {

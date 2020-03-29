@@ -26,6 +26,7 @@ public class NorthWestHandle extends AbstractFigureHandle {
 
 	private Point nwPoint;
 	private Point sePoint;
+	private double proportion;
 
 	public void startInteraction(int x, int y, MouseEvent e, DrawView v) {
 		Rectangle r = owner.getBounds();
@@ -33,10 +34,17 @@ public class NorthWestHandle extends AbstractFigureHandle {
 
 		sePoint = new Point(nwPoint);
 		sePoint.translate((int) r.getWidth(), (int) r.getHeight());
+		proportion = (double) r.width / (double) r.height;
 	}
 
 	public void dragInteraction(int x, int y, MouseEvent e, DrawView v) {
-		owner.setBounds(new Point(x,y), sePoint);
+		if(e.isShiftDown()) {
+			int nh = nwPoint.y - y;
+			int nw = (int) proportion * nh;
+			owner.setBounds(new Point(nwPoint.x - nw, y), sePoint);
+		} else {
+			owner.setBounds(new Point(x,y), sePoint);
+		}
 	}
 
 	public void stopInteraction(int x, int y, MouseEvent e, DrawView v) {
