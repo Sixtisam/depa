@@ -48,6 +48,12 @@ public abstract class AbstractFigure implements Figure {
 
 	@Override
 	public Figure clone() {
-		return null;
+		try {
+			AbstractFigure fig = (AbstractFigure) super.clone();
+			fig.m_listeners = new ArrayList<>();
+			return fig;
+		} catch (CloneNotSupportedException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

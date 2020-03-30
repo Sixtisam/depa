@@ -5,7 +5,6 @@ import java.awt.Point;
 import jdraw.framework.DrawGrid;
 
 public class ModifierGrid implements DrawGrid {
-	private boolean ctrlPressed = false;
 
 	@Override
 	public Point constrainPoint(Point p) {

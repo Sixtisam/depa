@@ -87,6 +87,8 @@ public class Line extends AbstractFigure {
 
 	@Override
 	public Figure clone() {
-		return null;
+		Line clone = (Line) super.clone();
+		clone.line = (Line2D) this.line.clone();
+		return clone;
 	}
 }

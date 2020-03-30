@@ -10,6 +10,8 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.geom.RectangularShape;
 
+import jdraw.framework.Figure;
+
 /**
  * Represents rectangles in JDraw.
  * 
@@ -21,7 +23,7 @@ public class Rect extends AbstractRectangularFigure {
 	/**
 	 * Use the java.awt.Rectangle in order to save/reuse code.
 	 */
-	final Rectangle rectangle;
+	private Rectangle rectangle;
 
 	/**
 	 * Create a new rectangle of the given dimension.
@@ -53,4 +55,10 @@ public class Rect extends AbstractRectangularFigure {
 		g.drawRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
 	}
 
+	@Override
+	public Figure clone() {
+		Rect clone = (Rect) super.clone();
+		clone.rectangle = new Rectangle(this.rectangle);
+		return clone;
+	}
 }

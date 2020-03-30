@@ -6,13 +6,14 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.RectangularShape;
 
 import jdraw.figures.rect.AbstractRectangularFigure;
+import jdraw.framework.Figure;
 
 public class Oval extends AbstractRectangularFigure {
 	private static final long serialVersionUID = 1L;
 	/**
 	 * Use the java.awt.Ellipse2D in order to save/reuse code.
 	 */
-	final Ellipse2D ellipse;
+	private Ellipse2D ellipse;
 
 	/**
 	 * Create a new rectangle of the given dimension.
@@ -37,5 +38,12 @@ public class Oval extends AbstractRectangularFigure {
 		g.fillOval((int) ellipse.getX(), (int) ellipse.getY(), (int) ellipse.getWidth(), (int) ellipse.getHeight());
 		g.setColor(Color.BLACK);
 		g.drawOval((int) ellipse.getX(), (int) ellipse.getY(), (int) ellipse.getWidth(), (int) ellipse.getHeight());
+	}
+
+	@Override
+	public Figure clone() {
+		Oval clone = (Oval) super.clone();
+		clone.ellipse = (Ellipse2D) this.ellipse.clone();
+		return clone;
 	}
 }

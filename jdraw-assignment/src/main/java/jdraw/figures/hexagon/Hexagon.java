@@ -7,6 +7,7 @@ import java.awt.Polygon;
 import java.awt.Rectangle;
 
 import jdraw.figures.AbstractFigure;
+import jdraw.framework.Figure;
 
 public class Hexagon extends AbstractFigure {
 	private static final long serialVersionUID = 1L;
@@ -98,5 +99,12 @@ public class Hexagon extends AbstractFigure {
 		if (dx != 0 && dy != 0) {
 			notifyListeners();
 		}
+	}
+
+	@Override
+	public Figure clone() {
+		Hexagon hex = (Hexagon) super.clone();
+		hex.polygon = new Polygon(this.polygon.xpoints.clone(), this.polygon.ypoints.clone(), this.polygon.npoints);
+		return hex;
 	}
 }

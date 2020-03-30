@@ -28,7 +28,6 @@ import jdraw.framework.DrawToolFactory;
 import jdraw.framework.DrawView;
 import jdraw.framework.Figure;
 import jdraw.framework.FigureGroup;
-import jdraw.grids.ModifierGrid;
 import jdraw.grids.RectGrid;
 
 /**
@@ -40,6 +39,9 @@ import jdraw.grids.RectGrid;
  */
 @SuppressWarnings("serial")
 public class StdContext extends AbstractContext {
+
+	private List<Figure> clipboard;
+
 	/**
 	 * Constructs a standard context with a default set of drawing tools.
 	 * 
@@ -99,9 +101,36 @@ public class StdContext extends AbstractContext {
 		});
 
 		editMenu.addSeparator();
-		editMenu.add("Cut").setEnabled(false);
-		editMenu.add("Copy").setEnabled(false);
-		editMenu.add("Paste").setEnabled(false);
+		JMenuItem cutMenu = editMenu.add("Cut");
+		cutMenu.setAccelerator(KeyStroke.getKeyStroke("control X"));
+		cutMenu.addActionListener(e -> {
+			clipboard = getView().getSelection();
+			// retain figure order so the selection order does not influences order in group
+			clipboard.sort(Comparator.comparing(f -> getView().getModel().getFigureIndex(f))); // SLOW
+			clipboard.forEach(f -> getView().getModel().removeFigure(f));
+		});
+
+		JMenuItem copyMenu = editMenu.add("Copy");
+		copyMenu.setAccelerator(KeyStroke.getKeyStroke("control C"));
+		copyMenu.addActionListener(e -> {
+			clipboard = getView().getSelection();
+			// retain figure order so the selection order does not influences order in group
+			clipboard.sort(Comparator.comparing(f -> getView().getModel().getFigureIndex(f))); // SLOW
+		});
+
+		JMenuItem pasteMenu = editMenu.add("Paste");
+		pasteMenu.setAccelerator(KeyStroke.getKeyStroke("control V"));
+		pasteMenu.addActionListener(e -> {
+			if (clipboard != null && !clipboard.isEmpty()) {
+				getView().clearSelection();
+				clipboard.stream()
+						.map(Figure::clone)
+						.forEachOrdered(f -> {
+							getView().getModel().addFigure(f);
+							getView().addToSelection(f);
+						});
+			}
+		});
 
 		editMenu.addSeparator();
 		JMenuItem clear = new JMenuItem("Clear");
@@ -111,15 +140,17 @@ public class StdContext extends AbstractContext {
 		});
 
 		editMenu.addSeparator();
-		JMenuItem group = new JMenuItem("Group");
-		group.addActionListener(e -> {
+		JMenuItem groupMenu = new JMenuItem("Group");
+		groupMenu.addActionListener(e -> {
 			List<Figure> selected = getView().getSelection();
 			// retain figure order so the selection order does not influences order in group
 			selected.sort(Comparator.comparing(f -> getView().getModel().getFigureIndex(f))); // SLOW
 			selected.forEach(s -> getView().getModel().removeFigure(s));
-			getModel().addFigure(new Group(selected));
+			Group group = new Group(selected);
+			getModel().addFigure(group);
+			getView().addToSelection(group);
 		});
-		editMenu.add(group);
+		editMenu.add(groupMenu);
 
 		JMenuItem ungroup = new JMenuItem("Ungroup");
 		ungroup.addActionListener(e -> {
@@ -150,11 +181,11 @@ public class StdContext extends AbstractContext {
 		editMenu.add(orderMenu);
 
 		JMenu grid = new JMenu("Grid...");
-		grid.add("Grid 1").addActionListener(event -> {
+		grid.add("Rect 20x20").addActionListener(event -> {
 			getView().setGrid(new RectGrid());
 		});
-		grid.add("Grid 2").addActionListener(event -> {
-			getView().setGrid(new ModifierGrid());
+		grid.add("Normal Grid").addActionListener(event -> {
+			getView().setGrid(null);
 		});
 
 		grid.add("Grid 3");
