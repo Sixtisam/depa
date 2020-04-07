@@ -50,6 +50,8 @@ public abstract class AbstractFigure implements Figure {
 	public Figure clone() {
 		try {
 			AbstractFigure fig = (AbstractFigure) super.clone();
+			// explicitly do not copy the listeners: it is not expected that a listener originally attached to a figure is later
+			// attached to the copied figure.
 			fig.m_listeners = new ArrayList<>();
 			return fig;
 		} catch (CloneNotSupportedException e) {

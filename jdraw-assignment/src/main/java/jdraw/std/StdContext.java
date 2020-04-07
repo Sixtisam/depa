@@ -28,6 +28,7 @@ import jdraw.framework.DrawToolFactory;
 import jdraw.framework.DrawView;
 import jdraw.framework.Figure;
 import jdraw.framework.FigureGroup;
+import jdraw.grids.BoundingBoxGrid;
 import jdraw.grids.RectGrid;
 
 /**
@@ -181,14 +182,17 @@ public class StdContext extends AbstractContext {
 		editMenu.add(orderMenu);
 
 		JMenu grid = new JMenu("Grid...");
-		grid.add("Rect 20x20").addActionListener(event -> {
-			getView().setGrid(new RectGrid());
-		});
 		grid.add("Normal Grid").addActionListener(event -> {
 			getView().setGrid(null);
 		});
+		
+		grid.add("Rect 20x20").addActionListener(event -> {
+			getView().setGrid(new RectGrid());
+		});
 
-		grid.add("Grid 3");
+		grid.add("BoundingBox").addActionListener(event -> {
+			getView().setGrid(new BoundingBoxGrid(this));
+		});
 		editMenu.add(grid);
 
 		return editMenu;
