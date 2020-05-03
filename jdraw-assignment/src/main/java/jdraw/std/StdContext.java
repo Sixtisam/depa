@@ -17,6 +17,8 @@ import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import jdraw.figures.decorators.BorderDecorator;
+import jdraw.figures.decorators.GreenDecorator;
 import jdraw.figures.group.Group;
 import jdraw.figures.hexagon.HexagonTool;
 import jdraw.figures.line.LineTool;
@@ -185,7 +187,7 @@ public class StdContext extends AbstractContext {
 		grid.add("Normal Grid").addActionListener(event -> {
 			getView().setGrid(null);
 		});
-		
+
 		grid.add("Rect 20x20").addActionListener(event -> {
 			getView().setGrid(new RectGrid());
 		});
@@ -194,6 +196,40 @@ public class StdContext extends AbstractContext {
 			getView().setGrid(new BoundingBoxGrid(this));
 		});
 		editMenu.add(grid);
+
+		editMenu.addSeparator();
+
+		JMenu decoratorMenu = new JMenu("Decorators");
+		decoratorMenu.add("Toggle Green").addActionListener(event -> {
+			List<Figure> s = getView().getSelection();
+			getView().clearSelection();
+			for (Figure f : s) {
+				Figure f2 = null;
+				if (f instanceof GreenDecorator) {
+					f2 = ((GreenDecorator) f).getInner();
+				} else {
+					f2 = new GreenDecorator(f);
+				}
+				int index = getModel().getFigureIndex(f);
+				getModel().removeFigure(f);
+				getModel().addFigure(f2);
+				getModel().setFigureIndex(f2, index);
+				getView().addToSelection(f2);
+			}
+		});
+		JMenuItem addBorder = new JMenuItem("Add Border Decorator");
+		decoratorMenu.add(addBorder);
+		addBorder.addActionListener(e -> {
+			List<Figure> s = getView().getSelection();
+			getView().clearSelection();
+			for (Figure f : s) {
+				BorderDecorator dec = new BorderDecorator(f);
+				getModel().removeFigure(f);
+				getModel().addFigure(dec);
+				getView().addToSelection(dec);
+			}
+		});
+		editMenu.add(decoratorMenu);
 
 		return editMenu;
 	}
