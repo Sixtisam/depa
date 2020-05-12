@@ -12,13 +12,40 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Base interface for all figures implemented in the graphic editor.
- * Every Figure-type has to implement this interface.
+ * Base interface for all figures implemented in the graphic editor. Every
+ * Figure-type has to implement this interface.
  *
- * @author  Dominik Gruntz &amp; Christoph Denzler
+ * @author Dominik Gruntz &amp; Christoph Denzler
  * @version 2.5
  */
 public interface Figure extends Serializable, Cloneable {
+
+	// ADDED BY SKEEKS
+	public void setOuter(Figure outer);
+
+	public Figure getOuter();
+	
+	boolean isSame(Figure f);
+
+	boolean isSameImpl(Figure f);
+
+	boolean isOfType(Class<?> f);
+
+	public abstract void moveImpl(int dx, int dy);
+
+	public abstract boolean containsImpl(int x, int y);
+
+	public abstract void drawImpl(Graphics g);
+
+	public abstract Rectangle getBoundsImpl();
+
+	public abstract List<FigureHandle> getHandlesImpl();
+
+	public abstract void setBoundsImpl(Point origin, Point corner);
+	
+	public abstract FigureEvent createFigureEvent();
+
+	<T> T getOfType(Class<T> type);
 
 	/**
 	 * draw is called when the figure has to be drawn.
@@ -29,8 +56,8 @@ public interface Figure extends Serializable, Cloneable {
 	void draw(Graphics g);
 
 	/**
-	 * Moves the figure. The figure has to adjust its coordinates when this
-	 * method is called, and registered figure listeners have to be notified.
+	 * Moves the figure. The figure has to adjust its coordinates when this method
+	 * is called, and registered figure listeners have to be notified.
 	 * 
 	 * @param dx move distance in x direction (argument in pixels)
 	 * @param dy move distance in y direction (argument in pixels)
@@ -39,9 +66,9 @@ public interface Figure extends Serializable, Cloneable {
 	void move(int dx, int dy);
 
 	/**
-	 * Tests whether the mouse coordinates are contained in the figure. contains
-	 * is called when the mouse is pressed in the grafic in order to decide
-	 * which figure has to be selected.
+	 * Tests whether the mouse coordinates are contained in the figure. contains is
+	 * called when the mouse is pressed in the grafic in order to decide which
+	 * figure has to be selected.
 	 * 
 	 * @param x x-coordinate of mouse position
 	 * @param y y-coordinate of mouse position
@@ -52,8 +79,8 @@ public interface Figure extends Serializable, Cloneable {
 
 	/**
 	 * Changes the bounds of the figure. The figure has to adjust its size and
-	 * position when this method is called, and registered figure listeners have
-	 * to be notified.
+	 * position when this method is called, and registered figure listeners have to
+	 * be notified.
 	 * 
 	 * @param origin the new origin
 	 * @param corner the new corner
@@ -62,17 +89,16 @@ public interface Figure extends Serializable, Cloneable {
 	void setBounds(Point origin, Point corner);
 
 	/**
-	 * Returns the bounds of a figure. The bounds of a figure is a rectangle
-	 * which contains the figure.
+	 * Returns the bounds of a figure. The bounds of a figure is a rectangle which
+	 * contains the figure.
 	 * 
 	 * @return bounds of the figure
 	 */
 	Rectangle getBounds();
 
 	/**
-	 * Returns a list of handles. Handles are used to manipulate a figure. If
-	 * the figure does not support handles, <code>null</code> may be returned as
-	 * result.
+	 * Returns a list of handles. Handles are used to manipulate a figure. If the
+	 * figure does not support handles, <code>null</code> may be returned as result.
 	 * 
 	 * @return list of handles (may be null if handles are not supported)
 	 * @see FigureHandle
@@ -80,9 +106,8 @@ public interface Figure extends Serializable, Cloneable {
 	List<FigureHandle> getHandles();
 
 	/**
-	 * Adds the specified figure listener to receive figure events from this
-	 * figure. If listener is null, no exception is thrown and no action is
-	 * performed.
+	 * Adds the specified figure listener to receive figure events from this figure.
+	 * If listener is null, no exception is thrown and no action is performed.
 	 * 
 	 * @param listener the figure listener.
 	 * @see FigureListener
@@ -90,11 +115,11 @@ public interface Figure extends Serializable, Cloneable {
 	void addFigureListener(FigureListener listener);
 
 	/**
-	 * Removes the specified figure listener so that it no longer receives
-	 * figure events from this figure. This method performs no function, nor
-	 * does it throw an exception, if the listener specified by the argument was
-	 * not previously added to this figure. If listener is null, no exception is
-	 * thrown and no action is performed.
+	 * Removes the specified figure listener so that it no longer receives figure
+	 * events from this figure. This method performs no function, nor does it throw
+	 * an exception, if the listener specified by the argument was not previously
+	 * added to this figure. If listener is null, no exception is thrown and no
+	 * action is performed.
 	 * 
 	 * @param listener the figure listener.
 	 * @see FigureListener

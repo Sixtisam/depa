@@ -33,7 +33,7 @@ public class Oval extends AbstractRectangularFigure {
 	}
 
 	@Override
-	public void draw(Graphics g) {
+	public void drawImpl(Graphics g) {
 		g.setColor(Color.WHITE);
 		g.fillOval((int) ellipse.getX(), (int) ellipse.getY(), (int) ellipse.getWidth(), (int) ellipse.getHeight());
 		g.setColor(Color.BLACK);

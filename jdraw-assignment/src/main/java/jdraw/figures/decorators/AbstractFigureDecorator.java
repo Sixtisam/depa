@@ -8,49 +8,76 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import jdraw.figures.AbstractFigure;
 import jdraw.framework.DrawView;
 import jdraw.framework.Figure;
 import jdraw.framework.FigureHandle;
 import jdraw.framework.FigureListener;
 
-public abstract class AbstractFigureDecorator implements Figure {
+public abstract class AbstractFigureDecorator extends AbstractFigure {
 	private static final long serialVersionUID = 1L;
 
-	private final Figure inner;
+	private Figure inner;
 
 	public AbstractFigureDecorator(Figure inner) {
 		super();
+		if (inner != null) {
+			inner.setOuter(this);
+		}
 		this.inner = inner;
+	}
+
+	@Override
+	public final boolean isSameImpl(Figure other) {
+		return this == other || inner.isSameImpl(other);
+	}
+
+	@Override
+	public final <T> T getOfType(Class<T> type) {
+		if (type.isAssignableFrom(this.getClass())) {
+			return type.cast(this); // checked version of (T)this
+		} else {
+			return inner.getOfType(type);
+		}
+	}
+
+	@Override
+	public final boolean isOfType(Class<?> type) {
+		return type.isAssignableFrom(this.getClass()) || inner.isOfType(type);
 	}
 
 	public Figure getInner() {
 		return inner;
 	}
 
-	public void draw(Graphics g) {
-		inner.draw(g);
+	public void setInner(Figure inner) {
+		this.inner = inner;
 	}
 
-	public void move(int dx, int dy) {
-		inner.move(dx, dy);
+	public void drawImpl(Graphics g) {
+		inner.drawImpl(g);
 	}
 
-	public boolean contains(int x, int y) {
-		return inner.contains(x, y);
+	public void moveImpl(int dx, int dy) {
+		inner.moveImpl(dx, dy);
 	}
 
-	public void setBounds(Point origin, Point corner) {
-		inner.setBounds(origin, corner);
+	public boolean containsImpl(int x, int y) {
+		return inner.containsImpl(x, y);
 	}
 
-	public Rectangle getBounds() {
-		return inner.getBounds();
+	public void setBoundsImpl(Point origin, Point corner) {
+		inner.setBoundsImpl(origin, corner);
 	}
 
-	public List<FigureHandle> getHandles() {
+	public Rectangle getBoundsImpl() {
+		return inner.getBoundsImpl();
+	}
+
+	public List<FigureHandle> getHandlesImpl() {
 		// decorate all handles so handle.getOwner() will point to decorator instead of
 		// decorated object
-		return inner.getHandles().stream().map(h -> new HandleDecorator(this, h)).collect(Collectors.toList());
+		return inner.getHandlesImpl().stream().map(h -> new HandleDecorator(this, h)).collect(Collectors.toList());
 	}
 
 	public void addFigureListener(FigureListener listener) {

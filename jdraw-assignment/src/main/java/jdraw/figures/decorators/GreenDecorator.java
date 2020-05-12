@@ -22,12 +22,12 @@ public class GreenDecorator extends AbstractFigureDecorator {
 
 	@Override
 	public Figure clone() {
-		return new GreenDecorator(getInner().clone());
+		return new GreenDecorator(getInner() == null ? null : getInner().clone());
 	}
 
 	@Override
-	public void draw(Graphics g) {
-		super.draw(new GraphicsDecorator(g));
+	public void drawImpl(Graphics g) {
+		super.drawImpl(new GraphicsDecorator(g));
 	}
 
 	static class GraphicsDecorator extends Graphics {
@@ -229,6 +229,7 @@ public class GreenDecorator extends AbstractFigureDecorator {
 			realG.dispose();
 		}
 
+		@SuppressWarnings("deprecation")
 		public void finalize() {
 			realG.finalize();
 		}
@@ -237,6 +238,7 @@ public class GreenDecorator extends AbstractFigureDecorator {
 			return realG.toString();
 		}
 
+		@SuppressWarnings("deprecation")
 		public Rectangle getClipRect() {
 			return realG.getClipRect();
 		}

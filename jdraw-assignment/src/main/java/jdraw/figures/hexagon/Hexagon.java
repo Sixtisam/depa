@@ -6,10 +6,10 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 
-import jdraw.figures.AbstractFigure;
+import jdraw.figures.AbstractConcreteFigure;
 import jdraw.framework.Figure;
 
-public class Hexagon extends AbstractFigure {
+public class Hexagon extends AbstractConcreteFigure {
 	private static final long serialVersionUID = 1L;
 	private Polygon polygon;
 
@@ -61,7 +61,7 @@ public class Hexagon extends AbstractFigure {
 	}
 
 	@Override
-	public void setBounds(Point origin, Point corner) {
+	public void setBoundsImpl(Point origin, Point corner) {
 		double sideX = Math.abs(origin.getX() - corner.getX());
 		// calculates side by given half height
 		double sideY = Math.sqrt(4 * Math.pow(Math.abs(origin.getY() - corner.getY()), 2) / 3);
@@ -71,12 +71,12 @@ public class Hexagon extends AbstractFigure {
 	}
 
 	@Override
-	public boolean contains(int x, int y) {
+	public boolean containsImpl(int x, int y) {
 		return polygon.contains(x, y);
 	}
 
 	@Override
-	public Rectangle getBounds() {
+	public Rectangle getBoundsImpl() {
 		return polygon.getBounds();
 	}
 
@@ -86,7 +86,7 @@ public class Hexagon extends AbstractFigure {
 	 * @param g the graphics context to use for drawing.
 	 */
 	@Override
-	public void draw(Graphics g) {
+	public void drawImpl(Graphics g) {
 		g.setColor(Color.WHITE);
 		g.fillPolygon(polygon);
 		g.setColor(Color.BLACK);
@@ -94,7 +94,7 @@ public class Hexagon extends AbstractFigure {
 	}
 
 	@Override
-	public void move(int dx, int dy) {
+	public void moveImpl(int dx, int dy) {
 		polygon.translate(dx, dy);
 		if (dx != 0 && dy != 0) {
 			notifyListeners();

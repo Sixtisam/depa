@@ -12,7 +12,7 @@ package jdraw.framework;
  * @author  Dominik Gruntz &amp; Christoph Denzler
  * @version 2.5
  */
-public interface FigureGroup {
+public interface FigureGroup extends Figure {
 	
 	/**
 	 * Returns the parts of a figure which consists of several parts.

@@ -8,13 +8,13 @@ import java.awt.geom.Line2D;
 import java.util.Arrays;
 import java.util.List;
 
-import jdraw.figures.AbstractFigure;
+import jdraw.figures.AbstractConcreteFigure;
 import jdraw.figures.handles.Point1Handle;
 import jdraw.figures.handles.Point2Handle;
 import jdraw.framework.Figure;
 import jdraw.framework.FigureHandle;
 
-public class Line extends AbstractFigure {
+public class Line extends AbstractConcreteFigure {
 	private static final long serialVersionUID = 1L;
 	private Line2D line;
 
@@ -36,7 +36,7 @@ public class Line extends AbstractFigure {
 	}
 
 	@Override
-	public void setBounds(Point origin, Point corner) {
+	public void setBoundsImpl(Point origin, Point corner) {
 		line.setLine(origin, corner);
 		notifyListeners();
 	}
@@ -46,12 +46,12 @@ public class Line extends AbstractFigure {
 	}
 
 	@Override
-	public boolean contains(int x, int y) {
+	public boolean containsImpl(int x, int y) {
 		return line.ptSegDistSq(x, y) < GRAVITY * GRAVITY;
 	}
 
 	@Override
-	public Rectangle getBounds() {
+	public Rectangle getBoundsImpl() {
 		return line.getBounds();
 	}
 
@@ -61,13 +61,13 @@ public class Line extends AbstractFigure {
 	 * @param g the graphics context to use for drawing.
 	 */
 	@Override
-	public void draw(Graphics g) {
+	public void drawImpl(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.drawLine((int) line.getX1(), (int) line.getY1(), (int) line.getX2(), (int) line.getY2());
 	}
 
 	@Override
-	public void move(int dx, int dy) {
+	public void moveImpl(int dx, int dy) {
 		line.setLine(line.getX1() + dx, line.getY1() + dy, line.getX2() + dx, line.getY2() + dy);
 		if (dx != 0 && dy != 0) {
 			notifyListeners();
@@ -81,7 +81,7 @@ public class Line extends AbstractFigure {
 	 * @see jdraw.framework.Figure#getHandles()
 	 */
 	@Override
-	public List<FigureHandle> getHandles() {
+	public List<FigureHandle> getHandlesImpl() {
 		return Arrays.asList(new Point1Handle(this), new Point2Handle(this));
 	}
 

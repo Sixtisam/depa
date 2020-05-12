@@ -48,7 +48,7 @@ public class Rect extends AbstractRectangularFigure {
 	 * @param g the graphics context to use for drawing.
 	 */
 	@Override
-	public void draw(Graphics g) {
+	public void drawImpl(Graphics g) {
 		g.setColor(Color.WHITE);
 		g.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
 		g.setColor(Color.BLACK);

@@ -15,13 +15,13 @@ public class BorderDecorator extends AbstractFigureDecorator {
 
 	@Override
 	public Figure clone() {
-		return new BorderDecorator(getInner().clone());
+		return new BorderDecorator(getInner() == null ? null : getInner().clone());
 	}
 
 	@Override
-	public void draw(Graphics g) {
+	public void drawImpl(Graphics g) {
 		Rectangle r = getBounds();
-		super.draw(g);
+		super.drawImpl(g);
 		g.setColor(Color.WHITE);
 		g.drawLine(r.x, r.y, r.x + r.width, r.y);
 		g.drawLine(r.x, r.y, r.x, r.y + r.height);
@@ -31,9 +31,9 @@ public class BorderDecorator extends AbstractFigureDecorator {
 	}
 
 	@Override
-	public Rectangle getBounds() {
+	public Rectangle getBoundsImpl() {
 		// grow bounds so the border decorator can be added multiple times
-		Rectangle bounds = new Rectangle(getInner().getBounds());
+		Rectangle bounds = new Rectangle(getInner().getBoundsImpl());
 		bounds.grow(1, 1);
 		return bounds;
 	}

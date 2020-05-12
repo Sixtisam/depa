@@ -17,6 +17,7 @@ import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import jdraw.figures.decorators.AbstractFigureDecorator;
 import jdraw.figures.decorators.BorderDecorator;
 import jdraw.figures.decorators.GreenDecorator;
 import jdraw.figures.group.Group;
@@ -159,10 +160,22 @@ public class StdContext extends AbstractContext {
 		ungroup.addActionListener(e -> {
 			List<Figure> selectedFigures = getView().getSelection();
 			for (Figure f : selectedFigures) {
-				if (f instanceof FigureGroup) {
-					FigureGroup fg = (FigureGroup) f;
-					getModel().removeFigure(f);
-					fg.getFigureParts().forEach(fp -> getModel().addFigure(fp));
+				if (f.isOfType(FigureGroup.class)) {
+					FigureGroup fg = f.getOfType(FigureGroup.class);
+					AbstractFigureDecorator dec = (AbstractFigureDecorator) fg.getOuter();
+					getModel().removeFigure(dec);
+					if(dec != null) {
+						dec.setInner(null);
+						fg.getFigureParts()
+						.forEach(fp -> {
+							AbstractFigureDecorator newDec = (AbstractFigureDecorator) dec.clone();
+							newDec.setInner(fp);
+							getModel().addFigure(newDec);
+						});
+					} else {
+						getModel().removeFigure(fg);
+						fg.getFigureParts().forEach(fp -> getModel().addFigure(fp));
+					}
 				}
 			}
 		});
@@ -204,17 +217,31 @@ public class StdContext extends AbstractContext {
 			List<Figure> s = getView().getSelection();
 			getView().clearSelection();
 			for (Figure f : s) {
-				Figure f2 = null;
-				if (f instanceof GreenDecorator) {
-					f2 = ((GreenDecorator) f).getInner();
+				if (f.isOfType(GreenDecorator.class)) {
+					GreenDecorator gd = f.getOfType(GreenDecorator.class);
+					
+					if(gd.getOuter() == null) { // green greendecorator is outermost
+						Figure f2 = gd.getInner();
+						f2.setOuter(null);
+						int index = getModel().getFigureIndex(f);
+						getModel().addFigure(f2);
+						getModel().removeFigure(f);
+						getModel().setFigureIndex(f2, index);
+						getView().addToSelection(f2);
+					} else { // if green decorator is somewhere between, just remove it
+						AbstractFigureDecorator outer = (AbstractFigureDecorator) gd.getOuter();
+						outer.setInner(gd.getInner());
+						// selection does not need to change
+						// no figures have to be removed from selection + model
+					}
 				} else {
-					f2 = new GreenDecorator(f);
+					Figure f2 = new GreenDecorator(f);
+					int index = getModel().getFigureIndex(f);
+					getModel().addFigure(f2);
+					getModel().removeFigure(f);
+					getModel().setFigureIndex(f2, index);
+					getView().addToSelection(f2);
 				}
-				int index = getModel().getFigureIndex(f);
-				getModel().removeFigure(f);
-				getModel().addFigure(f2);
-				getModel().setFigureIndex(f2, index);
-				getView().addToSelection(f2);
 			}
 		});
 		JMenuItem addBorder = new JMenuItem("Add Border Decorator");

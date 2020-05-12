@@ -15,6 +15,7 @@ import java.util.stream.StreamSupport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import jdraw.figures.AbstractFigure;
 import jdraw.framework.DrawModel;
 import jdraw.framework.DrawModelEvent;
 import jdraw.framework.Figure;
@@ -25,13 +26,13 @@ import jdraw.std.StdDrawModel;
 @SuppressWarnings("serial")
 public class DrawModelTest {
 
-	static class TestFigure implements Figure {
-		@Override public void setBounds(Point origin, Point corner) {}
-		@Override public void draw(Graphics g) {}
-		@Override public void move(int dx, int dy) {}
-		@Override public boolean contains(int x, int y) { return false;	}
-		@Override public java.awt.Rectangle getBounds() {return new java.awt.Rectangle();}
-		@Override public List<FigureHandle> getHandles() { return null; }
+	static class TestFigure extends AbstractFigure {
+		@Override public void setBoundsImpl(Point origin, Point corner) {}
+		@Override public void drawImpl(Graphics g) {}
+		@Override public void moveImpl(int dx, int dy) {}
+		@Override public boolean containsImpl(int x, int y) { return false;	}
+		@Override public java.awt.Rectangle getBoundsImpl() {return new java.awt.Rectangle();}
+		@Override public List<FigureHandle> getHandlesImpl() { return null; }
 		@Override public void addFigureListener(FigureListener listener) { }
 		@Override public void removeFigureListener(FigureListener listener) { }
 		@Override public Figure clone() { return null;}

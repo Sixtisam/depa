@@ -8,11 +8,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jdraw.figures.AbstractFigure;
+import jdraw.figures.AbstractConcreteFigure;
 import jdraw.framework.Figure;
 import jdraw.framework.FigureGroup;
 
-public class Group extends AbstractFigure implements Figure, FigureGroup {
+public class Group extends AbstractConcreteFigure implements Figure, FigureGroup {
 	private static final long serialVersionUID = 1L;
 
 	private List<Figure> children = new LinkedList<>();
@@ -33,27 +33,27 @@ public class Group extends AbstractFigure implements Figure, FigureGroup {
 	}
 
 	@Override
-	public void draw(Graphics g) {
+	public void drawImpl(Graphics g) {
 		children.forEach(c -> c.draw(g));
 	}
 
 	@Override
-	public void move(int dx, int dy) {
+	public void moveImpl(int dx, int dy) {
 		children.forEach(c -> c.move(dx, dy));
 	}
 
 	@Override
-	public boolean contains(int x, int y) {
+	public boolean containsImpl(int x, int y) {
 		return getBounds().contains(x, y);
 	}
 
 	@Override
-	public void setBounds(Point origin, Point corner) {
+	public void setBoundsImpl(Point origin, Point corner) {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public Rectangle getBounds() {
+	public Rectangle getBoundsImpl() {
 		Iterator<Figure> iter = children.iterator();
 		Figure figure = iter.next();
 		Rectangle boundingBox = new Rectangle(figure.getBounds());
