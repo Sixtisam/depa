@@ -17,10 +17,11 @@ import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import jdraw.commands.AddFigureCommand;
 import jdraw.figures.decorators.AbstractFigureDecorator;
 import jdraw.figures.decorators.BorderDecorator;
 import jdraw.figures.decorators.GreenDecorator;
-import jdraw.figures.group.Group;
+import jdraw.figures.group.GroupService;
 import jdraw.figures.hexagon.HexagonTool;
 import jdraw.figures.line.LineTool;
 import jdraw.figures.oval.OvalTool;
@@ -112,6 +113,11 @@ public class StdContext extends AbstractContext {
 			// retain figure order so the selection order does not influences order in group
 			clipboard.sort(Comparator.comparing(f -> getView().getModel().getFigureIndex(f))); // SLOW
 			clipboard.forEach(f -> getView().getModel().removeFigure(f));
+			getModel().getDrawCommandHandler().beginScript();
+			for (Figure figure : clipboard) {
+				getModel().getDrawCommandHandler().addCommand(new RemoveFigureCommand(getModel(), figure));
+			}
+			getModel().getDrawCommandHandler().endScript();
 		});
 
 		JMenuItem copyMenu = editMenu.add("Copy");
@@ -127,12 +133,15 @@ public class StdContext extends AbstractContext {
 		pasteMenu.addActionListener(e -> {
 			if (clipboard != null && !clipboard.isEmpty()) {
 				getView().clearSelection();
+				getModel().getDrawCommandHandler().beginScript();
 				clipboard.stream()
 						.map(Figure::clone)
 						.forEachOrdered(f -> {
+							getModel().getDrawCommandHandler().addCommand(new AddFigureCommand(getModel(), f));
 							getView().getModel().addFigure(f);
 							getView().addToSelection(f);
 						});
+				getModel().getDrawCommandHandler().endScript();
 			}
 		});
 
@@ -147,11 +156,9 @@ public class StdContext extends AbstractContext {
 		JMenuItem groupMenu = new JMenuItem("Group");
 		groupMenu.addActionListener(e -> {
 			List<Figure> selected = getView().getSelection();
-			// retain figure order so the selection order does not influences order in group
 			selected.sort(Comparator.comparing(f -> getView().getModel().getFigureIndex(f))); // SLOW
-			selected.forEach(s -> getView().getModel().removeFigure(s));
-			Group group = new Group(selected);
-			getModel().addFigure(group);
+			FigureGroup group = GroupService.group(getModel(), selected);
+			// retain figure order so the selection order does not influences order in group
 			getView().addToSelection(group);
 		});
 		editMenu.add(groupMenu);
@@ -161,21 +168,8 @@ public class StdContext extends AbstractContext {
 			List<Figure> selectedFigures = getView().getSelection();
 			for (Figure f : selectedFigures) {
 				if (f.isOfType(FigureGroup.class)) {
-					FigureGroup fg = f.getOfType(FigureGroup.class);
-					AbstractFigureDecorator dec = (AbstractFigureDecorator) fg.getOuter();
-					getModel().removeFigure(dec);
-					if(dec != null) {
-						dec.setInner(null);
-						fg.getFigureParts()
-						.forEach(fp -> {
-							AbstractFigureDecorator newDec = (AbstractFigureDecorator) dec.clone();
-							newDec.setInner(fp);
-							getModel().addFigure(newDec);
-						});
-					} else {
-						getModel().removeFigure(fg);
-						fg.getFigureParts().forEach(fp -> getModel().addFigure(fp));
-					}
+					List<Figure> ungroupedFigures = GroupService.ungroup(getModel(), f.getOfType(FigureGroup.class));
+					ungroupedFigures.forEach(f2 -> getView().addToSelection(f2));
 				}
 			}
 		});
@@ -219,8 +213,8 @@ public class StdContext extends AbstractContext {
 			for (Figure f : s) {
 				if (f.isOfType(GreenDecorator.class)) {
 					GreenDecorator gd = f.getOfType(GreenDecorator.class);
-					
-					if(gd.getOuter() == null) { // green greendecorator is outermost
+
+					if (gd.getOuter() == null) { // green greendecorator is outermost
 						Figure f2 = gd.getInner();
 						f2.setOuter(null);
 						int index = getModel().getFigureIndex(f);

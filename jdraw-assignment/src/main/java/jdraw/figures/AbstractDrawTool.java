@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import jdraw.commands.AddFigureCommand;
 import jdraw.framework.DrawContext;
 import jdraw.framework.DrawTool;
 import jdraw.framework.DrawView;
@@ -87,6 +88,7 @@ public abstract class AbstractDrawTool implements DrawTool {
 		anchor = new Point(x, y);
 		newFigure = createFigure(x, y, 0, 0);
 		view.getModel().addFigure(newFigure);
+		view.getModel().getDrawCommandHandler().addCommand(new AddFigureCommand(view.getModel(), newFigure));
 	}
 
 	public abstract Figure createFigure(int x, int y, int width, int height);

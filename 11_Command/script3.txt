@@ -1,0 +1,7 @@
+macrorecord stroke60 forward 30 left 60
+macrosave
+macrorecord hexagon repeat 6 macrorun stroke60
+macrosave
+macrorecord hexagon60 macrorun hexagon left 60
+macrosave
+repeat 6 macrorun hexagon60

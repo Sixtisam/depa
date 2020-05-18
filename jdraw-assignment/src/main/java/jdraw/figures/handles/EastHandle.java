@@ -27,6 +27,10 @@ public class EastHandle extends AbstractFigureHandle {
 
 	private Point nwPoint;
 	private Point sePoint;
+	
+	protected void setBoundsOfOwner(Point origin, Point corner) {
+		owner.setBounds(origin, corner);
+	}
 
 	public void startInteraction(int x, int y, MouseEvent e, DrawView v) {
 		nwPoint = new Point(getOwner().getBounds().getLocation());
