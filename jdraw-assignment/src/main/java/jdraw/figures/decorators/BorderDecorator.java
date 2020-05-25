@@ -2,6 +2,7 @@ package jdraw.figures.decorators;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Rectangle;
 
 import jdraw.framework.Figure;
@@ -28,6 +29,16 @@ public class BorderDecorator extends AbstractFigureDecorator {
 		g.setColor(Color.DARK_GRAY);
 		g.drawLine(r.x, r.y + r.height, r.x + r.width, r.y + r.height);
 		g.drawLine(r.x + r.width, r.y, r.x + r.width, r.y + r.height);
+	}
+
+	@Override
+	public void setBoundsImpl(Point origin, Point corner) {
+		Rectangle rec = new Rectangle(origin);
+		rec.setFrameFromDiagonal(origin, corner);
+		rec.grow(-1, -1);
+		Point rightBottom = rec.getLocation();
+		rightBottom.translate((int) rec.getWidth(), (int) rec.getHeight());
+		getInner().setBoundsImpl(rec.getLocation(), rightBottom);
 	}
 
 	@Override

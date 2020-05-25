@@ -19,17 +19,15 @@
 
 		<constructor-arg>
 			<list>	<!-- null represents a separator -->
-<!--
 				<ref bean="line"/>
 				<ref bean="rectangle"/>
+				<null />
 				<ref bean="oval"/>
--->
+				<ref bean="hexagon"/>
 			</list>
 		</constructor-arg>
 	</bean>
 
-
-<!--
 	<bean id="rectangle" class="jdraw.figures.RectangleToolFactory">
 		<property name="name"><value>Rectangle</value></property>
 		<property name="iconName"><value>rectangle.png</value></property>
@@ -44,6 +42,8 @@
 		<property name="name"><value>Oval</value></property>
 		<property name="iconName"><value>oval.png</value></property>
 	</bean>
--->
-
+	<bean id="hexagon" class="jdraw.figures.HexagonToolFactory">
+		<property name="name"><value>Hexagon</value></property>
+		<property name="iconName"><value>hexagon.png</value></property>
+	</bean>
 </beans>

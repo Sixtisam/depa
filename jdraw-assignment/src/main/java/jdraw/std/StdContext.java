@@ -22,10 +22,6 @@ import jdraw.figures.decorators.AbstractFigureDecorator;
 import jdraw.figures.decorators.BorderDecorator;
 import jdraw.figures.decorators.GreenDecorator;
 import jdraw.figures.group.GroupService;
-import jdraw.figures.hexagon.HexagonTool;
-import jdraw.figures.line.LineTool;
-import jdraw.figures.oval.OvalTool;
-import jdraw.figures.rect.RectTool;
 import jdraw.framework.DrawCommandHandler;
 import jdraw.framework.DrawModel;
 import jdraw.framework.DrawToolFactory;
@@ -282,11 +278,13 @@ public class StdContext extends AbstractContext {
 
 	@Override
 	protected void doRegisterDrawTools() {
-		// TODO Add new figure tools here
-		addTool(new RectTool(this));
-		addTool(new OvalTool(this));
-		addTool(new HexagonTool(this));
-		addTool(new LineTool(this));
+		getToolFactories().forEach(toolFactory -> {
+			if (toolFactory == null) {
+				addTool(null);
+			} else {
+				addTool(toolFactory.createTool(this));
+			}
+		});
 	}
 
 	/**
