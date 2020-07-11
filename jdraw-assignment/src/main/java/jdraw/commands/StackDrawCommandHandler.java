@@ -5,7 +5,7 @@ import java.util.Stack;
 import jdraw.framework.DrawCommand;
 import jdraw.framework.DrawCommandHandler;
 
-public class MyDrawCommandHandler implements DrawCommandHandler {
+public class StackDrawCommandHandler implements DrawCommandHandler {
 
 	private Stack<DrawCommand> undoStack = new Stack<>();
 	private Stack<DrawCommand> redoStack = new Stack<>();
